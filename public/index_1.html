@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>工程师书架</title> 
+  <meta name="viewport" content="user-scalable=no,initial-scale=1.0,maximum-scale=1.0" />
+  <meta name="apple-mobile-web-app-capable" content="yes" /> 
+  <meta charset="UTF-8">
+
+  <link rel="stylesheet" href="stylesheets/jquery.mobile.css" />
+
+  <script type="text/javascript" src="js/jquery.js"></script>
+  <script type="text/javascript" src="js/jquery.mobile.js"></script>
+  <script type="text/javascript" src="js/jquery.cookie.js"></script>
+  <script type="text/javascript" src="js/book.js"></script>
+</head>
+
+<body>
+
+<div id="books" data-role="page">
+  <div data-role="header" data-position="fixed">
+    <h1>工程师书架</h1>
+    <a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-icon-left ui-icon-search">搜索</a>
+    <a href="#donatebook" class="ui-btn ui-corner-all ui-shadow ui-btn-icon-left ui-icon-plus">捐赠</a>
+  </div>
+  <div data-role="content"> 
+    <form class="ui-filterable">
+        <input id="filterBooks-input" data-type="search">
+    </form>
+    <ul id="booklist" data-role="listview" data-inset="true" data-filter="true" data-input="#filterBooks-input">
+    </ul>
+  </div>
+  <div data-role="footer" data-position="fixed">
+    <div data-role="navbar" data-iconpos="left">
+        <ul>
+            <li><a href="#updates" data-icon="info">更新</a></li>
+            <li><a href="#books" data-icon="bullets" class="ui-btn-active ui-state-persist">图书</a></li>
+            <li><a href="#me" data-icon="user">我</a></li>
+        </ul>
+    </div>
+  </div>
+</div>
+
+<div id="updates" data-role="page">
+  <div data-role="header" data-position="fixed">
+    <h1>更新</h1>
+  </div>
+  <div data-role="content"> 
+    <ul id="updatelist" data-role="listview" data-inset="true">
+    </ul>
+  </div>
+  <div data-role="footer" data-position="fixed">
+    <div data-role="navbar" data-iconpos="left">
+        <ul>
+            <li><a href="#updates" data-icon="info" class="ui-btn-active ui-state-persist" >更新</a></li>
+            <li><a href="#books" data-icon="bullets">图书</a></li>
+            <li><a href="#me" data-icon="user">我</a></li>
+        </ul>
+    </div>
+  </div>
+</div>
+
+<div id="me" data-role="page">
+  <div data-role="header" data-position="fixed">
+    <h1>我</h1>
+  </div>
+  <div data-role="content"> 
+    <div id="me_form" style="padding:10px 20px;">
+      <p><i>本应用无需登录认证，您设置的Intranet ID使用浏览器cookie保存，仅用于记录借还图书 。</i></p>
+      <label for="me_email">您的Intranet ID：</label>
+      <input name="me" id="me_email" value="" type="email" placeholder="e.g. xxx@cn.ibm.com">
+      <p class="user" align="center"></p>
+      <button id="me_submit" type="submit" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left">保存</button>
+    </div>
+    <div id="me_show" style="padding:10px 20px;">
+      <p class="user" align="center"></p>
+      <button id="me_edit" type="submit" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left">编辑</button>
+      <p align="center"><i>备注： 本应用无需登录认证，您设置的Intranet ID使用浏览器cookie保存，仅用于记录借还图书 。</i></p>
+    </div>
+   </div>
+  <div data-role="footer" data-position="fixed">
+    <div data-role="navbar" data-iconpos="left">
+        <ul>
+            <li><a href="#updates" data-icon="info">更新</a></li>
+            <li><a href="#books" data-icon="bullets">图书</a></li>
+            <li><a href="#me" data-icon="user" class="ui-btn-active ui-state-persist">我</a></li>
+        </ul>
+    </div>
+  </div>
+</div>
+
+<div id="bookshow" data-role="page">
+  <div data-role="header" data-position="fixed">
+    <h1>图书详情</h1>
+    <a href="#books" class="ui-btn ui-corner-all ui-shadow ui-btn-icon-left ui-icon-home">Home</a>
+  </div>
+  <div data-role="content">
+    <h3 class="title"></h2>
+    <p class="info"></p>
+    <img class="image" src="">
+    <p class="summary"></p>
+    <p class="borrower_ongoing"></p>
+    <p class="borrower_done"></p>
+    <p class="donator"></p>
+    <p class="return2013"><strong>注意：由于原系统的借书记录丢失，如果您在2013年借过该书，请点击后面的按钮还书，系统将自动添加借、还书记录，谢谢！</strong>
+    <a id="return2013" href="#" class="ui-btn ui-btn-inline ui-icon-star ui-btn-icon-left">归还2013年借的书</a>
+    <br><Strong>如果您是2014年借、还书，请点击底部的按钮（如果出现的话）。</Strong></p>
+  </div>
+  <div data-role="footer" data-position="fixed">
+    <div data-role="navbar" data-iconpos="left">
+        <ul>
+            <li><a id="borrow" href="#" data-icon="forward">借这本书</a></li>
+            <li><a id="return" href="#" data-icon="back">还这本书</a></li>
+        </ul>
+    </div>
+  </div>
+</div>
+
+<div id="donatebook" data-role="page">
+  <div data-role="header" data-position="fixed">
+  <h1>捐赠图书</h1>
+    <a href="#books" class="ui-btn ui-corner-all ui-shadow ui-btn-icon-left ui-icon-home">Home</a>
+  </div>
+  <div data-role="content">
+    <div id="donate_form" style="padding:10px 20px;">
+      <label for="isbn">图书ISBN号码：</label>
+      <input name="isbn" id="donate_isbn" value="" type="number" placeholder="ISBN (10 or 13 digits)">
+      <label for="amount">图书数量：</label>
+      <input name="amount" id="donate_amount" min="0" max="5" value="1" type="range">
+      <label for="donate_email">捐赠人的Intranet ID：</label>
+      <input name="donator" id="donate_email" value="" type="email" placeholder="e.g. xxx@cn.ibm.com">
+      <button id="donate_submit" type="submit" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-plus">提交</button>
+    </div>
+  </div>  
+  <div data-role="footer" data-position="fixed">
+    <div data-role="navbar" data-iconpos="left">
+        <ul>
+            <li><a href="#updates" data-icon="info">更新</a></li>
+            <li><a href="#books" data-icon="bullets">图书</a></li>
+            <li><a href="#me" data-icon="user">我</a></li>
+        </ul>
+    </div>
+  </div>
+</div>
+<div id="tm">
+  <li id="item_tm">
+    <a href="#bookshow"><img class="image" src="">
+    <h2 class="title"></h2>
+    <p class="summary"></p>
+    <p class="ui-li-aside"></p></a>
+  </li>
+  <li id="update_tm">
+    <h2 class="donateinfo"></h2>
+    <p class="title"></p>
+    <p class="ui-li-aside"></p>
+  </li>
+</div>
+</body>
+</html>

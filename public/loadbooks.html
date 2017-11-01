@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>工程师书架</title> 
+  <meta name="viewport" content="user-scalable=no,initial-scale=1.0,maximum-scale=1.0" />
+  <meta name="apple-mobile-web-app-capable" content="yes" /> 
+  <meta charset="UTF-8">
+
+  <link rel="stylesheet" href="stylesheets/jquery.mobile.css" />
+
+  <script src="js/jquery.js"></script>
+  <script src="js/jquery.mobile.js"></script>
+</head>
+<body>
+	<div id="loadbooks" data-role="page">
+	  <div data-role="header" data-position="fixed">
+	  <h1>导入图书</h1>
+	  </div>
+	  <div data-role="content">
+	    <div id="load_form" style="padding:10px 20px;">
+	      <label for="secret">导入密码：</label>
+	      <input name="secret" id="secret" value="" type="text" placeholder="Who create this App?">
+				<label for="bookdata">图书数据：</label>
+				<textarea name="bookdata" id="bookdata" placeholder="每本书占用一行，每行依次列出ISBN, Email, Amount, Remain,以Tab键分隔）"></textarea>
+	      <button id="load_submit" type="submit" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-plus">提交</button>
+	    </div>
+	  </div>  
+	</div>
+</body>
+
+<script type="text/javascript">
+  $("#loadbooks").on("pagebeforeshow", function ( event ) {
+    //alert('OK');
+  });
+  
+  $("#load_submit").on("tap", function() {
+    var $bookdata = $('#bookdata').val();
+    var $secret = $('#secret').val();
+    $('body').empty();
+    loadBooks($secret, $bookdata);
+  });
+  
+  function loadBooks(secret, bookdata) {
+    $.ajax({
+      url: "/api/book/upload",
+      type: "POST",
+      dataType: "json",
+      data: {secret: secret, data: bookdata},
+      cache: true
+      })
+    .done(function(r) {
+      $('body').append('<p> Upload successfuly</p><p>Logs:</p><p>' + r.logs + '</p><p><a href="/#updates">Home</a> <a href="/loadbooks.html">Upload more</a></p>');
+      })
+    .error(function(err) {
+      $('body').append('<p> Upload failed</p><p>Error message: ' + err + '</p><p><a href="/#updates">Home</a> <a href="/loadbooks.html">Upload again</a></p>');
+    });
+  };
+</script>
+</html>
